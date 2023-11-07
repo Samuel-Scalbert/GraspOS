@@ -3,7 +3,7 @@ from fuzzywuzzy import fuzz
 from tqdm import tqdm
 
 # Load your JSON data into a list of conference titles
-conference_data = scrapper_title_json("HAL_2000_test_10000.json")
+conference_data = scrapper_title_json("HAL_2000_test_1000.json")
 
 # Create a list to store duplicate titles
 duplicate_titles = []
@@ -22,6 +22,10 @@ for i in tqdm(range(len(conference_data)), desc="conf", colour='red'):
             duplicate_titles.append((title1, title2, similarity_score))
 
 # Print the list of duplicate titles
-for pair in duplicate_titles:
-    print(f"Duplicates: {pair[0]} // {pair[1]} --- TH= {pair[2]}")
-print(f"{len(duplicate_titles)}/{len(conference_data)}")
+with open("Result_Test/duplicate_titles_" + "_11k" + ".txt", "w", encoding='utf-8') as output_file:
+    # Write the list of duplicate titles to the file
+    for pair in duplicate_titles:
+        output_file.write(f"Duplicates: {pair[0]} // {pair[1]} --- TH= {pair[2]}\n")
+
+    # Write the count of duplicates and total conferences
+    output_file.write(f"{len(duplicate_titles)}/{len(conference_data)}\n")
